@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: UNLICENSED
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
@@ -66,7 +66,7 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
         );
         require(
             whitelist.whitelistedAddresses(msg.sender),
-            "You are not white;isted"
+            "You are not whitelisted"
         );
         require(tokenIds < maxTokenIds, "Exceeded maximum crypto Devs Supply");
         require(msg.value >= _price, "Ether sent is not correct");

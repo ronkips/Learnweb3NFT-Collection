@@ -1,4 +1,5 @@
 const { ethers } = require("hardhat");
+const fs = require("fs");
 require("dotenv").config({ path: ".env" });
 const { WHITELIST_CONTRACT_ADDRESS, METADATA_URL } = require("../constants");
 
@@ -16,6 +17,12 @@ async function main() {
   );
   //print the address of the deployed contract
   console.log("Crypto Devs contract is:", deployedCryptoDevsContract.address)
+
+  const data = {
+    WHITELIST_CONTRACT_ADDRESS: deployedCryptoDevsContract.address,
+    abi: JSON.parse(deployedCryptoDevsContract.interface.format('json'))
+  };
+  fs.writeFileSync('./src/CryptoDevs_Abi.json', JSON.stringify(data));
 }
 
 // call the main function and catch if there is an error
