@@ -18,7 +18,7 @@ export default function Home() {
   const [isOwner, setIsOwner] = useState(false);
   // tokenIdsMinted keeps track of the number of tokenIds that have been minted
   const [tokenIdsMinted, setTokenIdsMinted] = useState("0");
-  // Create a reference to the Web3 Modal (used for connecting to Metamask) which persists as long as the page is open
+  // Create a reference to the Web3 Modal (used for connecting to Metamask) stays as long as the page is open
   const web3ModalRef = useRef();
 
   /**
@@ -28,14 +28,13 @@ export default function Home() {
     try {
       // We need a Signer here since this is a 'write' transaction.
       const signer = await getProviderOrSigner(true);
-      // Create a new instance of the Contract with a Signer, which allows
-      // update methods
+      // Create a new instance of the Contract with a Signer, which allows for update methods
       const whitelistContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
       // call the presaleMint from the contract, only whitelisted addresses would be able to mint
       const tx = await whitelistContract.presaleMint({
-        // value signifies the cost of one crypto dev which is "0.01" eth.
-        // We are parsing `0.01` string to ether using the utils library from ethers.js
-        value: utils.parseEther("0.01")
+        // value signifies the cost of one crypto dev which is "0.001" eth.
+        // We are parsing `0.001` string to ether using the utils library from ethers.js
+        value: utils.parseEther("0.001")
       });
       setLoading(true);
       // wait for the transaction to get mined
@@ -59,9 +58,9 @@ export default function Home() {
       const whitelistContract = new Contract(NFT_CONTRACT_ADDRESS, abi, signer);
       // call the mint from the contract to mint the Crypto Dev
       const tx = await whitelistContract.mint({
-        // value signifies the cost of one crypto dev which is "0.01" eth.
-        // We are parsing `0.01` string to ether using the utils library from ethers.js
-        value: utils.parseEther("0.01")
+        // value signifies the cost of one crypto dev which is "0.001" eth.
+        // We are parsing `0.001` string to ether using the utils library from ethers.js
+        value: utils.parseEther("0.001")
       });
       setLoading(true);
       // wait for the transaction to get mined
@@ -212,16 +211,13 @@ export default function Home() {
   };
 
   /**
-   * Returns a Provider or Signer object representing the Ethereum RPC with or without the
-   * signing capabilities of metamask attached
-   *
    * A `Provider` is needed to interact with the blockchain - reading transactions, reading balances, reading state, etc.
    *
-   * A `Signer` is a special type of Provider used in case a `write` transaction needs to be made to the blockchain, which involves the connected account
+   * A `Signer`  used in case a `write` transaction needs to be made to the blockchain, which involves the connected account
    * needing to make a digital signature to authorize the transaction being sent. Metamask exposes a Signer API to allow your website to
    * request signatures from the user using Signer functions.
    *
-   * @param {*} needSigner - True if you need the signer, default false otherwise
+   *  needSigner - True if you need the signer, default false otherwise
    */
   const getProviderOrSigner = async (needSigner = false) => {
     // Connect to Metamask
@@ -232,7 +228,6 @@ export default function Home() {
     // If user is not connected to the goerli network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
     if (chainId !== 5) {
-      
     }
 
     if (needSigner) {
@@ -243,8 +238,7 @@ export default function Home() {
   };
 
   // useEffects are used to react to changes in state of the website
-  // The array at the end of function call represents what state changes will trigger this effect
-  // In this case, whenever the value of `walletConnected` changes - this effect will be called
+
   useEffect(() => {
     // if wallet is not connected, create a new instance of Web3Modal and connect the MetaMask wallet
     if (!walletConnected) {
@@ -355,21 +349,19 @@ export default function Home() {
         <div>
           <h1 className={styles.title}>Welcome to Crypto Devs!</h1>
           <div className={styles.description}>
-            Its an NFT collection for developers in Crypto.
+            This is an NFT collection for developers in Crypto.
           </div>
           <div className={styles.description}>
-            {tokenIdsMinted}/20 have been minted
+            {tokenIdsMinted}/20 NFTs have been minted
           </div>
           {renderButton()}
         </div>
         <div>
-          <img className={styles.image} src="./cryptodevs.svg" />
+          <img className={styles.image} src="./cryptodevs/cryptodevs/4.svg" />
         </div>
       </div>
 
-      <footer className={styles.footer}>
-        Made with &#10084; by Crypto Devs
-      </footer>
+      <footer className={styles.footer}>Made with &#10084; by Hilllary</footer>
     </div>
   );
 }

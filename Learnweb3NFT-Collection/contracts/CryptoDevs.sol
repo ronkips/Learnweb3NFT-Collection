@@ -12,7 +12,7 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
     string _baseTokenURI;
 
     //Price is the price of one Crypto NFT
-    uint256 public _price = 0.01 ether;
+    uint256 public _price = 0.001 ether;
 
     //Pause is used to pause the contract in case of an emergency
     bool public _paused;
@@ -31,14 +31,16 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
 
     // timestamp  for when the presale will end
     uint256 public presaleEnded;
-
+    //protecting against certaion attacks
+    //resitrictin accesss to certain functions
+    // validating input parameters
     modifier onlyWhenNotPaused() {
         require(!_paused, "Contract currently paused");
         _;
     }
 
     /**
-     * @dev ERC721 constructor takes in a `name` and a `symbol` to the token collection.
+     * ERC721 constructor takes in a `name` and a `symbol` to the token collection.
      *  Constructor for Crypto Devs takes in the baseURI to set _baseTokenURI for the collection.
      */
     constructor(string memory baseURI, address whitelistContract)
@@ -48,9 +50,8 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
         whitelist = IWhitelist(whitelistContract);
     }
 
-    /**
-     * @dev startPresale starts a presale for the whitelisted addresses
-     */
+    //startPresale starts a presale for the whitelisted addresses
+
     function startPresale() public onlyOwner {
         presaleStarted = true;
         // Set presaleEnded time as current timestamp + 5 minutes
@@ -90,9 +91,11 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
     }
 
     /**
-     * @dev _baseURI overides the Openzeppelin's ERC721 implementation which by default
+     * _baseURI overides the Openzeppelin's ERC721 implementation which by default
      * returned an empty string for the baseURI
      */
+    //virtual-Function that allows an to inheriting contract to override it's behavior
+    //override- function that overrides that base function
     function _baseURI() internal view virtual override returns (string memory) {
         return _baseTokenURI;
     }
@@ -113,6 +116,6 @@ contract CryptoDevs is ERC721Enumerable, Ownable {
     // function to receive Ether. msg.data must be empty
     receive() external payable {}
 
-    //Fallback function called when msg.data is empty
+    // function called when msg.data is not empty
     fallback() external payable {}
 }
