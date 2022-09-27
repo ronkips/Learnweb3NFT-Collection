@@ -357,7 +357,7 @@ export default function Home() {
           {renderButton()}
         </div>
         <div>
-          <img className={styles.image} src="./cryptodevs/cryptodevs/4.svg" />
+          <img className={styles.image} src="./cryptodevs/4.svg" />
         </div>
       </div>
 
